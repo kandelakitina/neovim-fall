@@ -48,7 +48,8 @@ keymap.set('n', '<M-up>', '<C-w>+')
 keymap.set('n', '<M-down>', '<C-w>-')
 
 -- Cycle buffers
-keymap.set('n', '<Tab>', ':bnext<Return>')
+keymap.set('n', '<C-l>', ':bNext<Return>')
+keymap.set('n', '<C-h>', ':bprevious<Return>')
 
 -- Cycle tabs (Requires BufferLine)
 keymap.set('n', '<M-,>', '<Cmd>BufferLineCycleNext<CR>', {})

@@ -22,8 +22,14 @@ telescope.setup {
   defaults = {
     mappings = {
       n = {
-        ["q"] = actions.close
+        ["q"] = actions.close,
       },
+      i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-n>"] = actions.cycle_history_next,
+        ["<C-p>"] = actions.cycle_history_prev,
+      },  
     },
   },
   extensions = {
@@ -46,29 +52,35 @@ telescope.setup {
   },
 }
 
-vim.keymap.set('n', '<leader>f',
+vim.keymap.set('n', '<leader>o',
   function()
     builtin.find_files({
       no_ignore = false,
       hidden = true
     })
   end)
+
+vim.keymap.set('n', '<leader>p', function()
+  builtin.builtin()
+end)
+
+vim.keymap.set('n', '<leader>s', function()
+  builtin.current_buffer_fuzzy_find()
+end)
+
 vim.keymap.set('n', '<leader>r', function()
-  builtin.live_grep()
+  builtin.oldfiles()
 end)
-vim.keymap.set('n', '<leader>\\', function()
-  builtin.buffers()
-end)
-vim.keymap.set('n', '<leader>t', function()
+
+vim.keymap.set('n', '<leader>h', function()
   builtin.help_tags()
 end)
-vim.keymap.set('n', '<leader><space>', function()
-  builtin.resume()
+
+vim.keymap.set('n', '\\\\', function()
+  builtin.buffers()
 end)
-vim.keymap.set('n', '<leader>e', function()
-  builtin.diagnostics()
-end)
-vim.keymap.set("n", "<leader>d", function()
+
+vim.keymap.set("n", "<leader>e", function()
   telescope.extensions.file_browser.file_browser({
     path = "%:p:h",
     cwd = telescope_buffer_dir(),
@@ -79,4 +91,60 @@ vim.keymap.set("n", "<leader>d", function()
     initial_mode = "normal",
     layout_config = { height = 40 }
   })
+end)
+
+vim.keymap.set('n', '<leader><space>', function()
+  builtin.resume()
+end)
+
+vim.keymap.set('n', '<leader>fg', function()
+  builtin.live_grep()
+end)
+
+vim.keymap.set('n', '<leader>fd', function()
+  builtin.diagnostics()
+end)
+
+vim.keymap.set('n', '<leader>fc', function()
+  builtin.commands()
+end)
+
+vim.keymap.set('n', '<leader>fhc', function()
+  builtin.command_history()
+end)
+
+vim.keymap.set('n', '<leader>fhs', function()
+  builtin.search_history()
+end)
+
+vim.keymap.set('n', '<leader>fhq', function()
+  builtin.quickfixhistory()
+end)
+
+vim.keymap.set('n', '<leader>fm', function()
+  builtin.marks()
+end)
+
+vim.keymap.set('n', '<leader>fq', function()
+  builtin.quickfix()
+end)
+
+vim.keymap.set('n', '<leader>ft', function()
+  builtin.tags()
+end)
+
+vim.keymap.set('n', '<leader>fl', function()
+  builtin.loclist()
+end)
+
+vim.keymap.set('n', '<leader>fj', function()
+  builtin.jumplist()
+end)
+
+vim.keymap.set('n', '<leader>fk', function()
+  builtin.keymaps()
+end)
+
+vim.keymap.set('n', '<leader>ft', function()
+  builtin.treesitter()
 end)

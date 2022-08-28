@@ -19,9 +19,9 @@ keymap.set('n', '<C-a>', 'gg<S-v>G')
 
 -- Ctrl-C Ctrl-V to copy / past
 keymap.set('v', '<C-c>', '"+y')
-keymap.set('n', '<C-v>', '"+p')
-keymap.set('c', '<C-v>', '<C-r>+')
-keymap.set('i', '<C-v>', '<C-r>+')
+keymap.set('n', '<C-S-v>', '"+p')
+keymap.set('c', '<C-S-v>', '<C-r>+')
+keymap.set('i', '<C-S-v>', '<C-r>+')
 
 -- Save with root permission (not working for now)
 --vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
@@ -120,8 +120,7 @@ saga.init_lsp_saga()
 -- Lsp finder find the symbol definition implement reference
 -- when you use action in finder like open vsplit then you can
 -- use <C-t> to jump back
--- (not working)
--- keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
+keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
 
 -- Code action
 keymap("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
@@ -131,7 +130,7 @@ keymap("v", "<leader>ca", "<cmd>Lspsaga range_code_action<CR>", { silent = true 
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 
 -- Definition preview (nor working)
--- keymap("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
+keymap("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
 
 -- Show line diagnostics
 keymap("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
@@ -167,14 +166,14 @@ vim.keymap.set("n", "<C-u>", function()
     action.smart_scroll_with_saga(-1)
 end, { silent = true })
 
---[[ Wilder menu mappings
-local status, wilder = pcall(require, "wilder")
+local status, git = pcall(require, "git")
 if (not status) then return end
 
-wilder.setup({
-  next_key = '<C-j>',
-  previous_key = '<C-k>',
-  accept_key = '<Return>',
-  reject_key = '<C-e>',
+git.setup({
+  keymaps = {
+    -- Open blame window
+    blame = "<Leader>gb",
+    -- Open file/folder in git repository
+    browse = "<Leader>go",
+  }
 })
---]]

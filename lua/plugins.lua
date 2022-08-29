@@ -1,27 +1,35 @@
 -- 907th/vim-auto-save
 
--- Install packer
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
- 
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+local status, packer = pcall(require, "packer")
+if (not status) then
+  print("Packer is not installed")
+  return
 end
- 
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd(
-    "BufWritePost",
-    { command = "source <afile> | PackerCompile", group = packer_group, pattern = "init.lua" }
-)
 
-require("packer").startup(function(use)
-	use 'wbthomason/packer.nvim'
+vim.cmd [[packadd packer.nvim]]
+
+packer.startup(function(use)
+	use 'wbthomason/packer.nvim' -- must be cloned beforehand
 
   -- Visuals
 	use 'shatur/neovim-ayu'
 	use 'nvim-lualine/lualine.nvim'
   use 'kyazdani42/nvim-web-devicons'
-  use 'akinsho/bufferline.nvim'
+  
+  use { "akinsho/bufferline.nvim", 
+    config = function()
+      require('bufferline').setup()
+    end
+  }
+  
   use 'norcalli/nvim-colorizer.lua'
+  
+  use {
+    "projekt0n/github-nvim-theme",
+    config = function()
+      vim.cmd "colorscheme github_dark_default"
+    end,
+  }
 
   -- Utils
   use 'windwp/nvim-autopairs'
@@ -38,6 +46,28 @@ require("packer").startup(function(use)
     'glacambre/firenvim',
     run = function() vim.fn['firenvim#install'](0) end
   }
+
+  use 'lukas-reineke/indent-blankline.nvim'
+
+  -- Better comment
+  use {
+    "numToStr/Comment.nvim",
+    opt = true,           
+    keys = { "gc", "gcc", "gbc" }, -- Lazy loads when keys are pressed
+    config = function()
+      require("Comment").setup {}
+    end,
+  }
+
+  -- Leap
+  use { 'ggandor/leap.nvim', 
+    config = function()
+      require("leap").set_default_keymaps()
+    end,
+  }
+
+  -- Better Netrw
+  use {"tpope/vim-vinegar"}
 
   -- Telescope
   use 'nvim-lua/plenary.nvim'
@@ -62,6 +92,8 @@ require("packer").startup(function(use)
   	-- don't forget to install tree-sitter on the system 
   }
 
+  use 'sheerun/vim-polyglot'
+
   --[[ for Wilder
   use 'gelguy/wilder.nvim'
 
@@ -72,6 +104,3 @@ require("packer").startup(function(use)
   --]]
 
 end)
-
--- Colorscheme bindings
-vim.cmd [[colorscheme ayu-dark]]

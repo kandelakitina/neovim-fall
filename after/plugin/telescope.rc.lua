@@ -68,7 +68,7 @@ vim.keymap.set('n', '<leader>s', function()
   builtin.current_buffer_fuzzy_find()
 end)
 
-vim.keymap.set('n', '<leader>r', function()
+vim.keymap.set('n', '<leader>fr', function()
   builtin.oldfiles()
 end)
 

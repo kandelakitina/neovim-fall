@@ -1,33 +1,16 @@
-local status, bufferline = pcall(require, "bufferline")
-if (not status) then return end
+local M = {}
 
-bufferline.setup({
-  options = {
-    mode = "tabs",
-    separator_style = 'slant',
-    always_show_bufferline = false,
-    show_buffer_close_icons = false,
-    show_close_icon = false,
-    color_icons = true
-  },
-  highlights = {
-    separator = {
-      fg = '#073642',
-      bg = '#002b36',
+function M.setup()
+  require("bufferline").setup {
+    options = {
+      numbers = "none",
+      diagnostics = "nvim_lsp",
+      separator_style = "slant" or "padded_slant",
+      show_tab_indicators = true,
+      show_buffer_close_icons = false,
+      show_close_icon = false,
     },
-    separator_selected = {
-      fg = '#073642',
-    },
-    background = {
-      fg = '#657b83',
-      bg = '#002b36'
-    },
-    buffer_selected = {
-      fg = '#fdf6e3',
-      bold = true,
-    },
-    fill = {
-      bg = '#073642'
-    }
-  },
-})
+  }
+end
+
+return M

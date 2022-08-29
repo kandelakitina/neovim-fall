@@ -33,7 +33,7 @@ keymap.set('n', '<M-t>', ':tabedit<Return>')
 keymap.set('n', '<M-s>', ':split<Return><C-w>w')
 keymap.set('n', '<M-v>', ':vsplit<Return><C-w>w')
 
--- Move window
+-- Jump to windows
 keymap.set('', '<M-w>', '<C-w>w')
 keymap.set('', '<M-h>', '<C-w>h')
 keymap.set('', '<M-k>', '<C-w>k')
@@ -41,11 +41,11 @@ keymap.set('', '<M-j>', '<C-w>j')
 keymap.set('', '<M-l>', '<C-w>l')
 keymap.set('', '<M-q>', ':close!<Return>')
 
--- Resize window
-keymap.set('n', '<M-left>', '<C-w><')
-keymap.set('n', '<M-right>', '<C-w>>')
-keymap.set('n', '<M-up>', '<C-w>+')
-keymap.set('n', '<M-down>', '<C-w>-')
+-- Resizing panes
+keymap.set("n", "<Left>", ":vertical resize +1<CR>", default_opts)
+keymap.set("n", "<Right>", ":vertical resize -1<CR>", default_opts)
+keymap.set("n", "<Up>", ":resize -1<CR>", default_opts)
+keymap.set("n", "<Down>", ":resize +1<CR>", default_opts)
 
 -- Cycle buffers
 keymap.set('n', '<C-l>', ':bNext<Return>')
@@ -59,11 +59,31 @@ keymap.set('n', '<M-.>', '<Cmd>BufferLineCyclePrev<CR>', {})
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
+-- Center search results
+keymap.set("n", "n", "nzz", default_opts)
+keymap.set("n", "N", "Nzz", default_opts)
+
+-- Better indent
+keymap.set("v", "<", "<gv", default_opts)
+keymap.set("v", ">", ">gv", default_opts)
+
+-- Paste over currently selected text without yanking it
+keymap.set("v", "p", '"_dP', default_opts)
+
+-- Cancel search highlighting with ESC
+keymap.set("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", default_opts)
+
+-- Move selected line / block of text in visual mode
+keymap.set("x", "K", ":move '<-2<CR>gv-gv", default_opts)
+keymap.set("x", "J", ":move '>+1<CR>gv-gv", default_opts)
+
+
+--[[ This from Takuya
 -- LSP navigation mappings
 -- ===========
 -- Use an on_attach function to only map the following keys
@@ -91,6 +111,21 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
+--]]
+
+-- LSP Mappings
+keymap.set('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
+keymap.set('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>')
+keymap.set('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>')
+keymap.set('n', 'gw', ':lua vim.lsp.buf.document_symbol()<CR>')
+keymap.set('n', 'gW', ':lua vim.lsp.buf.workspace_symbol()<CR>')
+keymap.set('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
+keymap.set('n', 'gt', ':lua vim.lsp.buf.type_definition()<CR>')
+keymap.set('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
+keymap.set('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+keymap.set('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
+keymap.set('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
+keymap.set('n', '<leader>cf', ':lua vim.lsp.buf.formatting()<CR>')
 
 -- CMP (autocompletion snippet) mappings
 local status, cmp = pcall(require, "cmp")
@@ -130,7 +165,7 @@ keymap("v", "<leader>ca", "<cmd>Lspsaga range_code_action<CR>", { silent = true 
 -- Rename
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true })
 
--- Definition preview (nor working)
+-- Definition preview (not always working)
 keymap("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
 
 -- Show line diagnostics
@@ -178,3 +213,4 @@ git.setup({
     browse = "<Leader>go",
   }
 })
+

@@ -42,10 +42,10 @@ keymap.set('', '<M-l>', '<C-w>l')
 keymap.set('', '<M-q>', ':close!<Return>')
 
 -- Resizing panes
-keymap.set("n", "<Left>", ":vertical resize +1<CR>", default_opts)
-keymap.set("n", "<Right>", ":vertical resize -1<CR>", default_opts)
-keymap.set("n", "<Up>", ":resize -1<CR>", default_opts)
-keymap.set("n", "<Down>", ":resize +1<CR>", default_opts)
+keymap.set("n", "<Left>", ":vertical resize -1<CR>")
+keymap.set("n", "<Right>", ":vertical resize +1<CR>")
+keymap.set("n", "<Up>", ":resize +1<CR>")
+keymap.set("n", "<Down>", ":resize -1<CR>")
 
 -- Cycle buffers
 keymap.set('n', '<C-l>', ':bNext<Return>')

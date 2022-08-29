@@ -47,7 +47,15 @@ packer.startup(function(use)
     run = function() vim.fn['firenvim#install'](0) end
   }
 
+  -- Indentline
   use 'lukas-reineke/indent-blankline.nvim'
+
+  -- Better % jump
+  use 'andymass/vim-matchup'
+
+  -- New words objects
+  use 'chaoren/vim-wordmotion'
+  use 'wellle/targets.vim' -- Adds new text objects
 
   -- Better comment
   use {
@@ -69,6 +77,9 @@ packer.startup(function(use)
   -- Better Netrw
   use {"tpope/vim-vinegar"}
 
+  -- WhichKey
+  use 'folke/which-key.nvim'
+
   -- Telescope
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
@@ -76,6 +87,7 @@ packer.startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- LSP and autocompletion stuff
+  use 'folke/lsp-colors.nvim'
 	use 'neovim/nvim-lspconfig'
 	use 'onsails/lspkind.nvim'
 	use 'hrsh7th/cmp-buffer'
